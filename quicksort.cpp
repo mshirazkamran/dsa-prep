@@ -1,27 +1,34 @@
 #include <iostream>
 using namespace std;
 
-// Partition the array into two halves
+// Partition the array using the first element as the pivot
 int partition(int arr[], int low, int high) {
-    int pivot = arr[high]; // Select the pivot as the last element
-    int i = low - 1;       // Index for elements smaller than pivot
+    int pivot = arr[low];  // Select the pivot as the first element
+    int i = low;           // i is the smaller element index
+    int j = high;          // j is the larger element index
 
-    for (int j = low; j < high; j++) {
-        if (arr[j] <= pivot) {
-            i++; // Increment index of smaller element
-            // Swap arr[i] and arr[j]
-            int temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
+    // Move i and j towards each other until they cross
+    while (i < j) {
+        // Increment i until you find an element larger than the pivot
+        while (arr[i] <= pivot && i < high) {
+            i++;
+        }
+
+        // Decrement j until you find an element smaller than the pivot
+        while (arr[j] > pivot) {
+            j--;
+        }
+
+        // If i < j, swap arr[i] and arr[j]
+        if (i < j) {
+            swap(arr[i], arr[j]);
         }
     }
 
-    // Place pivot in the correct position
-    int temp = arr[i + 1];
-    arr[i + 1] = arr[high];
-    arr[high] = temp;
+    // Swap the pivot element at low with arr[j]
+    swap(arr[low], arr[j]);
 
-    return i + 1; // Return the partition index
+    return j;  // Return the pivot index after placing it in the correct position
 }
 
 // Recursive quick sort function
